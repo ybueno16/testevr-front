@@ -1,9 +1,10 @@
 package com.example.vrteste.front.Pedido.View;
 
+import com.example.vrteste.front.Pedido.Controller.ProdutoBaixaApiController;
+import com.example.vrteste.front.Pedido.Model.BaixaEstoqueRequest;
 import com.example.vrteste.front.Venda.Model.ProdutoModel;
 import com.example.vrteste.front.Venda.Controller.VendaApiController;
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.List;
 
@@ -66,7 +67,7 @@ public class CadastroVendaLote extends JDialog {
     private void salvarVenda() {
         int sucesso = 0;
         int falha = 0;
-    java.util.List<com.example.vrteste.front.Venda.Model.BaixaEstoqueRequest> baixas = new java.util.ArrayList<>();
+    List<BaixaEstoqueRequest> baixas = new java.util.ArrayList<>();
         for (int i = 0; i < produtos.size(); i++) {
             ProdutoModel prod = produtos.get(i);
             int quantidade = 1;
@@ -78,19 +79,18 @@ public class CadastroVendaLote extends JDialog {
             }
             try {
                 vendaApiController.cadastrarVenda(prod, clienteId, quantidade);
-                baixas.add(new com.example.vrteste.front.Venda.Model.BaixaEstoqueRequest(prod.getId(), quantidade));
+                baixas.add(new BaixaEstoqueRequest(prod.getId(), quantidade));
                 sucesso++;
             } catch (Exception ex) {
                 falha++;
             }
         }
         try {
-            // Converter para List<com.example.vrteste.front.Pedido.Model.BaixaEstoqueRequest>
-            java.util.List<com.example.vrteste.front.Pedido.Model.BaixaEstoqueRequest> baixasPedido = new java.util.ArrayList<>();
-            for (com.example.vrteste.front.Venda.Model.BaixaEstoqueRequest b : baixas) {
+            java.util.List<BaixaEstoqueRequest> baixasPedido = new java.util.ArrayList<>();
+            for (BaixaEstoqueRequest b : baixas) {
                 baixasPedido.add(new com.example.vrteste.front.Pedido.Model.BaixaEstoqueRequest(b.getId(), b.getQuantidade()));
             }
-            com.example.vrteste.front.Pedido.Controller.ProdutoBaixaApiController.baixarEstoqueEmLote(baixasPedido);
+            ProdutoBaixaApiController.baixarEstoqueEmLote(baixasPedido);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Erro ao baixar estoque: " + ex.getMessage());
         }

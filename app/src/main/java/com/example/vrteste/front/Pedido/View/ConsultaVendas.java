@@ -2,6 +2,7 @@ package com.example.vrteste.front.Pedido.View;
 
 import com.example.vrteste.front.Venda.Controller.VendaApiController;
 import com.example.vrteste.front.Venda.Model.StatusVenda;
+import com.example.vrteste.front.Venda.Model.VendaModel;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -58,14 +59,14 @@ public class ConsultaVendas extends JFrame {
 
     private void carregarVendas() {
         try {
-            java.util.List<com.example.vrteste.front.Venda.Model.VendaModel> vendas = com.example.vrteste.front.Venda.Controller.VendaApiController.listarVendas();
+            List<VendaModel> vendas = VendaApiController.listarVendas();
             tableModel.setRowCount(0);
-            for (com.example.vrteste.front.Venda.Model.VendaModel venda : vendas) {
+            for (VendaModel venda : vendas) {
                 tableModel.addRow(new Object[]{
                         venda.getId(),
                         venda.getClienteId(),
-                        "-", // Status
-                        "-", // Data (não disponível)
+                        "-",
+                        "-",
                         venda.getValor()
                 });
             }
@@ -80,7 +81,6 @@ public class ConsultaVendas extends JFrame {
             JOptionPane.showMessageDialog(this, "Selecione uma venda para editar.");
             return;
         }
-        Long vendaId = (Long) tableModel.getValueAt(row, 0);
         String statusAtualStr = (String) tableModel.getValueAt(row, 2);
         StatusVenda statusAtual = StatusVenda.PENDENTE;
         for (StatusVenda s : StatusVenda.values()) {
@@ -93,8 +93,6 @@ public class ConsultaVendas extends JFrame {
         dialog.setVisible(true);
         StatusVenda novoStatus = dialog.getStatusSelecionado();
         if (novoStatus != null && novoStatus != statusAtual) {
-            // Aqui você deve chamar a API/controller para atualizar o status no backend
-            // Exemplo: vendaApiController.atualizarStatusVenda(vendaId, novoStatus.name());
             tableModel.setValueAt(novoStatus.getDescricao(), row, 2);
             JOptionPane.showMessageDialog(this, "Status atualizado para: " + novoStatus.getDescricao());
         }
@@ -107,7 +105,6 @@ public class ConsultaVendas extends JFrame {
             return;
         }
         Long vendaId = (Long) tableModel.getValueAt(row, 0);
-        // Chamar lógica de finalização parcial (a ser implementada)
         JOptionPane.showMessageDialog(this, "Finalizar parcialmente venda: " + vendaId);
     }
 

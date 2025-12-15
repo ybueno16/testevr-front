@@ -79,7 +79,6 @@ public class Menu extends javax.swing.JFrame {
     }
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
             Cliente cliente = new Cliente();
             
             cliente.setVisible(true);
@@ -88,7 +87,6 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
         Produtos produtos = new Produtos();
         produtos.setVisible(true);
         produtos.setLocationRelativeTo(null);

@@ -15,7 +15,6 @@ public class App {
         } catch (Exception ex) {
             System.err.println("Failed to initialize FlatLaf");
             try {
-                // Fallback para o look and feel padrão do sistema
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             } catch (Exception e) {
                 e.printStackTrace();

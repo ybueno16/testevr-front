@@ -3,12 +3,14 @@ package com.example.vrteste.front.Pedido.View;
 
 import com.example.vrteste.front.Pedido.Controller.ProdutoApiController;
 import com.example.vrteste.front.Venda.Controller.VendaApiController;
+import com.example.vrteste.front.Venda.Model.ClienteDto;
 import com.example.vrteste.front.Venda.Model.ProdutoModel;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
-// Método para popular a tabela com produtos vindos da API
 public class Produtos extends JFrame {
     private JTable tabelaProdutos;
     private JButton btnAdicionarVenda;
@@ -27,9 +29,9 @@ public class Produtos extends JFrame {
 
     public void carregarProdutosDaApi() {
         try {
-            java.util.List<com.example.vrteste.front.Venda.Model.ProdutoModel> produtos = com.example.vrteste.front.Pedido.Controller.ProdutoApiController.listarProdutos();
+            List<ProdutoModel> produtos = ProdutoApiController.listarProdutos();
             tableModel.setRowCount(0);
-            for (com.example.vrteste.front.Venda.Model.ProdutoModel prod : produtos) {
+            for (ProdutoModel prod : produtos) {
                 tableModel.addRow(new Object[]{
                     prod.getId(),
                     prod.getDescricao(),
@@ -93,12 +95,12 @@ public class Produtos extends JFrame {
             return;
         }
         try {
-            java.util.List<com.example.vrteste.front.Venda.Model.ClienteDto> clientes = vendaApiController.listarClientes();
+            List<ClienteDto> clientes = vendaApiController.listarClientes();
             if (clientes == null || clientes.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Nenhum cliente disponível.");
                 return;
             }
-            JComboBox<com.example.vrteste.front.Venda.Model.ClienteDto> cbClientes = new JComboBox<>(clientes.toArray(new com.example.vrteste.front.Venda.Model.ClienteDto[0]));
+            JComboBox<ClienteDto> cbClientes = new JComboBox<>(clientes.toArray(new ClienteDto[0]));
             cbClientes.setRenderer(new DefaultListCellRenderer() {
                 @Override
                 public java.awt.Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
@@ -113,7 +115,7 @@ public class Produtos extends JFrame {
             if (option != JOptionPane.OK_OPTION) {
                 return;
             }
-            com.example.vrteste.front.Venda.Model.ClienteDto clienteSelecionado = (com.example.vrteste.front.Venda.Model.ClienteDto) cbClientes.getSelectedItem();
+            ClienteDto clienteSelecionado = (ClienteDto) cbClientes.getSelectedItem();
             if (clienteSelecionado == null) {
                 JOptionPane.showMessageDialog(this, "Cliente não selecionado.");
                 return;
@@ -130,10 +132,10 @@ public class Produtos extends JFrame {
                     null
                 );
                 int quantidade = 1;
-                CadastroVenda telaVenda = new com.example.vrteste.front.Pedido.View.CadastroVenda(produto, quantidade, this, clienteId);
+                CadastroVenda telaVenda = new CadastroVenda(produto, quantidade, this, clienteId);
                 telaVenda.setVisible(true);
             } else {
-                java.util.List<ProdutoModel> produtosSelecionados = new java.util.ArrayList<>();
+                List<ProdutoModel> produtosSelecionados = new ArrayList<>();
                 for (int row : selecionados) {
                     ProdutoModel produto = new ProdutoModel(
                         ((Number) tableModel.getValueAt(row, 0)).longValue(),
@@ -145,7 +147,7 @@ public class Produtos extends JFrame {
                     );
                     produtosSelecionados.add(produto);
                 }
-                CadastroVendaLote telaLote = new com.example.vrteste.front.Pedido.View.CadastroVendaLote(this, produtosSelecionados, clienteId, this);
+                CadastroVendaLote telaLote = new CadastroVendaLote(this, produtosSelecionados, clienteId, this);
                 telaLote.setVisible(true);
             }
         } catch (Exception ex) {
@@ -153,8 +155,6 @@ public class Produtos extends JFrame {
             JOptionPane.showMessageDialog(this, "Erro ao registrar venda: " + ex.getMessage());
         }
     }
-
-    // Método para popular a tabela com produtos vindos da API
 
     @Override
     public void setVisible(boolean b) {

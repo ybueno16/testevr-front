@@ -8,6 +8,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.List;
+import java.util.Map;
 
 public class ConsultaVendas extends JFrame {
     private JTable tabelaVendas;
@@ -15,14 +16,12 @@ public class ConsultaVendas extends JFrame {
     private JButton btnEditar;
     private JButton btnVoltar;
     private JButton btnFinalizar;
-    private VendaApiController vendaApiController;
 
     public ConsultaVendas() {
         setTitle("Consulta de Vendas");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(900, 500);
         setLocationRelativeTo(null);
-        vendaApiController = new VendaApiController();
         initComponents();
         carregarVendas();
     }
@@ -109,7 +108,7 @@ private void finalizarVendaSelecionada() {
     private void carregarVendas() {
         try {
             List<ClienteDto> clientes = VendaApiController.listarClientes();
-            java.util.Map<Long, String> clienteIdNomeMap = new java.util.HashMap<>();
+            Map<Long, String> clienteIdNomeMap = new java.util.HashMap<>();
             for (ClienteDto cliente : clientes) {
                 clienteIdNomeMap.put(cliente.getId(), cliente.getNome());
             }

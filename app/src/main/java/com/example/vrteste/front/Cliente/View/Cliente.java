@@ -8,6 +8,7 @@ package com.example.vrteste.front.Cliente.View;
 import com.example.vrteste.front.Cliente.Controller.ClienteApiController;
 import com.example.vrteste.front.Cliente.Model.ClienteModel;
 import java.util.List;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 import javax.swing.JTable;
@@ -18,11 +19,7 @@ import javax.swing.JTable;
  */
 public class Cliente extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Cliente.class.getName());
-
-    /**
-     * Creates new form Cliente
-     */
+    private static final Logger logger = Logger.getLogger(Cliente.class.getName());
 
     public Cliente() {
     initComponents();
@@ -33,7 +30,7 @@ public class Cliente extends javax.swing.JFrame {
         try {
             List<ClienteModel> clientes = ClienteApiController.listarClientes();
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-            model.setRowCount(0); // Limpa a tabela
+            model.setRowCount(0); 
             for (ClienteModel c : clientes) {
                 model.addRow(new Object[]{
                     c.getId(),
@@ -44,7 +41,6 @@ public class Cliente extends javax.swing.JFrame {
                 });
             }
         } catch (Exception e) {
-            // Em produção, mostre um dialog de erro
             e.printStackTrace();
         }
     }
