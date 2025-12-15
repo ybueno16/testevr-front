@@ -2,19 +2,13 @@ package com.example.vrteste.front.Pedido.Controller;
 
 import com.example.vrteste.front.Pedido.Model.BaixaEstoqueRequest;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonParseException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 
 public class ProdutoBaixaApiController {
-    private static final String API_URL = "http://localhost:3000/produtos/baixa";
+    private static final String API_URL = "http://localhost:3000/vendas/baixa";
 
     public static void baixarEstoqueEmLote(List<BaixaEstoqueRequest> requests) throws Exception {
         URL url = new URL(API_URL);
