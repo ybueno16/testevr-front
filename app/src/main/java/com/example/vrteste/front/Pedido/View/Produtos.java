@@ -1,4 +1,3 @@
-
 package com.example.vrteste.front.Pedido.View;
 
 import com.example.vrteste.front.Pedido.Controller.ProdutoApiController;
@@ -38,7 +37,6 @@ public class Produtos extends JFrame {
                     prod.getEstoque(),
                     prod.getPreco(),
                     prod.getUnidade(),
-                    prod.getUltimaAtualizacao(),
                     false
                 });
             }
@@ -51,16 +49,16 @@ public class Produtos extends JFrame {
     private void initComponents() {
         tableModel = new DefaultTableModel(
                 new Object[][]{},
-                new String[]{"ID", "Descrição", "Estoque", "Preço", "Unidade", "Última Atualização", "Selecionar"}
+                new String[]{"ID", "Descrição", "Estoque", "Preço", "Unidade", "Selecionar"}
         ) {
             @Override
             public Class<?> getColumnClass(int column) {
-                if (column == 6) return Boolean.class;
+                if (column == 5) return Boolean.class;
                 return super.getColumnClass(column);
             }
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column == 6;
+                return column == 5;
             }
         };
         tabelaProdutos = new JTable(tableModel);
@@ -85,7 +83,7 @@ public class Produtos extends JFrame {
     private void abrirCadastroVenda() {
         java.util.List<Integer> selecionados = new java.util.ArrayList<>();
         for (int i = 0; i < tableModel.getRowCount(); i++) {
-            Boolean marcado = (Boolean) tableModel.getValueAt(i, 6);
+            Boolean marcado = (Boolean) tableModel.getValueAt(i, 5);
             if (marcado != null && marcado) {
                 selecionados.add(i);
             }
@@ -171,4 +169,3 @@ public class Produtos extends JFrame {
         });
     }
 }
-
