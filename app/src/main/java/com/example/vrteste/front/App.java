@@ -3,12 +3,31 @@
  */
 package com.example.vrteste.front;
 
-public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
+import com.example.vrteste.front.Cliente.View.Cliente;
+import com.formdev.flatlaf.FlatDarkLaf;
+import javax.swing.*;
 
+public class App {
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        // Configura o Look and Feel
+        try {
+            UIManager.setLookAndFeel(new FlatDarkLaf());
+        } catch (Exception ex) {
+            System.err.println("Failed to initialize FlatLaf");
+            try {
+                // Fallback para o look and feel padrão do sistema
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        
+        SwingUtilities.invokeLater(() -> {
+            Menu menu = new Menu();
+            
+            menu.setVisible(true);
+            menu.setLocationRelativeTo(null);
+            menu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        });
     }
 }

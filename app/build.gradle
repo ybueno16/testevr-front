@@ -16,6 +16,8 @@ repositories {
 }
 
 dependencies {
+    // Gson para serialização/deserialização JSON
+    implementation 'com.google.code.gson:gson:2.10.1'
     // Use JUnit Jupiter for testing.
     testImplementation libs.junit.jupiter
 
